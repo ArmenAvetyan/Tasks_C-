@@ -1,29 +1,30 @@
 #include <concepts>
+#include <ranges>
 #include <print>
 #include <vector>
 #include <array>
-#include <ranges>
 
-template<typename T>
+template <typename T>
 concept Number = std::integral<T> || std::floating_point<T>;
 
-template<typename Container>
-concept  NumRandomAcc = Number<std::ranges::range_value_t<Container>> &&
-    std::ranges::random_access_range<Container>;
+template <typename Container>
+concept NumRandomAcc = std::ranges::random_access_range<Container> &&
+    Number<std::ranges::range_value_t<Container>>;
 
 template <NumRandomAcc Container>
-void bubble_sort (Container& c) {
-    const auto n {std::ranges::size(c)};
+void insertion_sort(Container& c) {
+    const auto n = std::ranges::size(c);
 
-    for(auto i {0uz}; i + 1 < n; ++i) {
-        bool sw {false};
-        for(auto j {0uz}; j < n - i - 1; ++j) {
-            if(c[j] > c[j + 1]) {
-                std::swap(c[j], c[j + 1]);
-                sw = true;
-            }
+    for(auto i {1}; i < n; ++i) {
+        auto key = c[i];
+        auto j {i - 1};
+
+        while(j >= 0 && key < c[j]) {
+            c[j + 1] = c[j];
+            --j;
         }
-        if(!sw) break;
+
+        c[j + 1] = key;
     }
 }
 
@@ -44,7 +45,7 @@ int main () {
     int arr[] {1, 5, 6, 8, 9, 2, 4};
 
     print(v);
-    bubble_sort(v);
+    insertion_sort(v);
 
     std::print("Sorted array: ");
     print(v);
@@ -53,7 +54,7 @@ int main () {
 //___________________________________________________________________
 
     print(a);
-    bubble_sort(a);
+    insertion_sort(a);
 
     std::print("Sorted array: ");
     print(a);
@@ -62,7 +63,7 @@ int main () {
 //___________________________________________________________________
 
     print(arr);
-    bubble_sort(arr);
+    insertion_sort(arr);
 
     std::print("Sorted array: ");
     print(arr);

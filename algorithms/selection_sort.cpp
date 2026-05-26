@@ -1,6 +1,5 @@
 #include <ranges>
 #include <concepts>
-#include <span>
 #include <print>
 #include <vector>
 #include <array>
@@ -28,11 +27,12 @@ void selection_sort(Container& c) {
 
 template <NumRandomAcc Container>
 void print(const Container& c) {
-    for(const auto& x : c)
+    for(const auto& x : c) {
         if constexpr (std::floating_point<std::remove_cvref_t<decltype(x)>>)
             std::print("{:.2f} ", x);
         else
             std::print("{} ", x);
+    }
     std::println();
 }
 
