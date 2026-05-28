@@ -9,7 +9,8 @@ A comprehensive repository containing various C++ projects, algorithms, and data
 ├── algorithms/
 │   ├── bubble_sort.cpp
 │   ├── insertion_sort.cpp
-│   └── selection_sort.cpp
+│   ├── selection_sort.cpp
+│   └── binary_search.cpp
 │
 ├── DOnStore/
 │   ├── main.cpp
