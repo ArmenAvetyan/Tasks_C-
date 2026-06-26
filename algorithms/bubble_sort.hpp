@@ -1,7 +1,6 @@
+#pragma once
 #include <concepts>
 #include <print>
-#include <vector>
-#include <array>
 #include <ranges>
 
 template<typename T>
@@ -36,37 +35,4 @@ void print(const Container& c) {
             std::print("{} ", x);
     }
     std::println();
-}
-
-int main () {
-    std::vector v {1, 5, 6, 8, 9, 2, 4};
-    std::array<float, 7> a {1.2, 5.3, 6.4, 8.5, 9.6, 2.4, 4.2};
-    int arr[] {1, 5, 6, 8, 9, 2, 4};
-
-    print(v);
-    bubble_sort(v);
-
-    std::print("Sorted array: ");
-    print(v);
-    std::println("\n");
-
-//___________________________________________________________________
-
-    print(a);
-    bubble_sort(a);
-
-    std::print("Sorted array: ");
-    print(a);
-    std::println("\n");
-
-//___________________________________________________________________
-
-    print(arr);
-    bubble_sort(arr);
-
-    std::print("Sorted array: ");
-    print(arr);
-    std::println("\n");
-
-    return 0;
 }
