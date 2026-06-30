@@ -7,10 +7,19 @@ A comprehensive repository containing various C++ projects, algorithms, and data
 ```
 .
 ├── algorithms/
-│   ├── bubble_sort.cpp
-│   ├── insertion_sort.cpp
-│   ├── selection_sort.cpp
-│   └── binary_search.cpp
+│   ├── bubble_sort.hpp
+│   ├── insertion_sort.hpp
+│   ├── selection_sort.hpp
+│   ├── binary_search.hpp
+│   ├── counting_sort.hpp
+│   ├── equal_range.hpp
+│   ├── lower_bound.hpp
+│   ├── marge_sort.hpp
+│   ├── quick_select.hpp
+│   ├── quick_sort.hpp
+│   ├── raddix_sort.hpp
+│   ├── upper_bound.hpp
+│   └── test.cpp
 │
 ├── DOnStore/
 │   ├── main.cpp
