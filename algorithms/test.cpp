@@ -8,6 +8,8 @@
 #include "insertion_sort.hpp"
 #include "selection_sort.hpp"
 #include "quick_select.hpp"
+#include "counting_sort.hpp"
+#include "raddix_sort.hpp"
 #include <cassert>
 #include <random>
 #include <vector>
@@ -798,6 +800,354 @@ void test_quick_select()
     }
 }
 
+void test_counting_sort()
+{
+    {
+        std::vector<int> v{4, 2, 2, 8, 3, 3, 1};
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{5, 4, 3, 2, 1};
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{1, 2, 3, 4, 5};
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{-5, 3, -1, 2, -5, 0, 1};
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{7, 7, 7, 7};
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{};
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{100, -100, 0, 50, -50};
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+
+    std::mt19937 rng(42);
+    std::uniform_int_distribution<int> dist(-1000, 1000);
+
+    for (int t = 0; t < 10'000; ++t)
+    {
+        std::vector<int> v(100);
+
+        for (auto& x : v)
+            x = dist(rng);
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+    // edge random cases
+    std::uniform_int_distribution<int> size_dist(1, 20);
+
+    for (int t = 0; t < 1000; ++t)
+    {
+        std::vector<int> v(size_dist(rng));
+
+        for (auto& x : v)
+            x = dist(rng);
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+
+    std::uniform_int_distribution<int> small_size_dist(0, 2);
+
+    for (int t = 0; t < 1000; ++t)
+    {
+        std::vector<int> v(small_size_dist(rng));
+
+        for (auto& x : v)
+            x = dist(rng);
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        counting_sort(v);
+
+        assert(v == expected);
+    }
+}
+
+void test_radix_sort()
+{
+    {
+        std::vector<int> v{};
+        std::vector<int> expected{};
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{5};
+        std::vector<int> expected{5};
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{5, 4, 3, 2, 1};
+        std::vector<int> expected{1, 2, 3, 4, 5};
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{170, 45, 75, 90, 802, 24, 2, 66};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{10, 100, 1000, 1, 10000, 100000};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{999, 999, 999, 999};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{9, 99, 999, 9999, 99999, 0};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{0, 5, 0, 3, 0, 2, 1};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+}
+
+void test_radix_sort_random()
+{
+    std::mt19937 rng(42);
+    std::uniform_int_distribution<int> value_dist(0, 1'000'000);
+    std::uniform_int_distribution<int> size_dist(1, 200);
+
+    for (int t = 0; t < 10000; ++t)
+    {
+        std::vector<int> v(size_dist(rng));
+
+        for (auto& x : v)
+            x = value_dist(rng);
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort(v);
+
+        assert(v == expected);
+    }
+}
+
+void test_radix_sort256()
+{
+    {
+        std::vector<int> v{};
+        std::vector<int> expected{};
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{42};
+        std::vector<int> expected{42};
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{5, 4, 3, 2, 1};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{170, 45, 75, 90, 802, 24, 2, 66};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{255, 256, 257, 511, 512, 513};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{65535, 65536, 65537, 1, 0};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{1000000, 999999, 123456, 654321, 42};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{0, 0, 0, 0};
+        auto expected = v;
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+
+    {
+        std::vector<int> v{255, 255, 1, 1, 0, 256, 256};
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+}
+
+void test_radix_sort256_random()
+{
+    std::mt19937 rng(42);
+    std::uniform_int_distribution<int> value_dist(0, 1'000'000);
+    std::uniform_int_distribution<int> size_dist(1, 200);
+
+    for (int t = 0; t < 10000; ++t)
+    {
+        std::vector<int> v(size_dist(rng));
+
+        for (auto& x : v)
+            x = value_dist(rng);
+
+        auto expected = v;
+        std::ranges::sort(expected);
+
+        raddix_sort256(v);
+
+        assert(v == expected);
+    }
+}
+
 int main () {
     test_my_equal_range();
     test_my_lower_bound();
@@ -810,6 +1160,11 @@ int main () {
     test_insertion_sort();
     test_selection_sort();
     test_quick_select();
+    test_counting_sort();
+    test_radix_sort();
+    test_radix_sort_random();
+    test_radix_sort256();
+    test_radix_sort256_random();
 
     return 0;
 }
