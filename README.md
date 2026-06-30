@@ -72,8 +72,6 @@ A comprehensive repository containing various C++ projects, algorithms, and data
 │   ├── weak_ptr.cpp
 │   └── weak_ptr.hpp
 │
-├── testUB/
-│
 ├── variadicTemplates_tasks/
 │   ├── format.cpp
 │   ├── max_variadic.cpp
@@ -94,7 +92,7 @@ A comprehensive repository containing various C++ projects, algorithms, and data
 
 | Project | Type | Language | Purpose |
 |---------|------|----------|---------|
-| **algorithms** | Sorting | C++ | Basic sorting algorithm implementations |
+| **algorithms** | Sorting & Searching | C++ | Sorting and searching algorithm implementations |
 | **DOnStore** | System | C++ | Online store management with data structures |
 | **Employee_Pay_Sys** | System | C++ | Payroll management with OOP inheritance |
 | **files** | Utilities | C++ | File I/O and manipulation programs |
@@ -103,7 +101,6 @@ A comprehensive repository containing various C++ projects, algorithms, and data
 | **library_management_system** | System | C++ | Advanced library management with diagrams |
 | **matrix_class** | Data Structure | C++ | Matrix with mathematical operations |
 | **smartPointers_imp** | Memory Management | C++ | Shared/Weak pointer implementations |
-| **testUB** | Testing | C++ | Undefined behavior detection/testing |
 | **variadicTemplates_tasks** | Advanced Templates | C++ | Variadic template metaprogramming |
 | **vectorIMP** | Data Structure | C++ | Custom dynamic array implementation |
 
@@ -112,16 +109,32 @@ A comprehensive repository containing various C++ projects, algorithms, and data
 ### **Detailed Project Descriptions**
 
 ### **algorithms**
-Collection of sorting algorithm implementations:
+Collection of sorting and searching algorithm implementations:
 
 **Files:**
-- `bubble_sort.cpp` - Bubble sort implementation
-- `insertion_sort.cpp` - Insertion sort implementation
-- `selection_sort.cpp` - Selection sort implementation
+- `bubble_sort.hpp` - Bubble sort implementation
+- `insertion_sort.hpp` - Insertion sort implementation
+- `selection_sort.hpp` - Selection sort implementation
+- `binary_search.hpp` - Binary search implementation (recursive and iterative versions)
+- `counting_sort.hpp` - Counting sort implementation
+- `equal_range.hpp` - Equal range implementation
+- `lower_bound.hpp` - Lower bound implementation
+- `marge_sort.hpp` - Merge sort implementation
+- `quick_select.hpp` - Quickselect implementation
+- `quick_sort.hpp` - Quick sort implementation
+- `raddix_sort.hpp` - Radix sort implementation (base-10 and 256-bucket/byte-based versions)
+- `upper_bound.hpp` - Upper bound implementation
+- `test.cpp` - Test driver for the algorithms above
 
 **Features:**
-- Elementary sorting algorithms
-- Comparison and analysis of sorting methods
+- Elementary and advanced sorting algorithms (bubble, insertion, selection, merge, quick, counting, radix)
+- Binary search with both recursive and iterative implementations
+- Related search utilities (lower_bound, upper_bound, equal_range)
+- Radix sort with base-10 and 256-bucket (byte-wise) variants
+- Quickselect for order statistics
+- Use of C++20 concepts for template constraints
+- Use of the Ranges library
+- Comparison and analysis of sorting/searching methods
 - Time complexity demonstrations
 
 ---
@@ -278,10 +291,6 @@ Smart pointer implementations for automatic memory management:
 
 ---
 
-### **testUB**
-
----
-
 ### **variadicTemplates_tasks**
 Advanced C++ template metaprogramming using variadic templates:
 
@@ -319,7 +328,7 @@ Custom dynamic array (vector) implementation:
 
 ## 🛠️ Technologies & Concepts
 
-- **Language**: C++ (C++11 and later standards)
+- **Language**: C++ (C++20 and later standards)
 - **Paradigms**: Object-Oriented Programming, Generic Programming
 - **Key Concepts**:
   - Data Structures
@@ -327,13 +336,15 @@ Custom dynamic array (vector) implementation:
   - Memory Management
   - Smart Pointers
   - Templates & Metaprogramming
+  - C++20 Concepts
+  - Ranges Library
   - Object-Oriented Design
   - Exception Handling
   - File I/O
 
 ## 📋 Requirements
 
-- **Compiler**: GCC, Clang, or MSVC (C++11 or later)
+- **Compiler**: GCC, Clang, or MSVC (C++20 or later)
 - **Build System**: CMake (optional) or manual compilation
 - **Operating System**: Windows, macOS, or Linux
 
@@ -347,7 +358,7 @@ Each project can be compiled differently based on its structure:
 ```bash
 # algorithms, files, forward_listIMP, matrix_class, vectorIMP
 cd <project_name>
-g++ -std=c++23 *.cpp -o program
+clang++ -std=c++23 *.cpp -o program
 ./program
 ```
 
@@ -355,7 +366,7 @@ g++ -std=c++23 *.cpp -o program
 ```bash
 # Employee_Pay_Sys
 cd Employee_Pay_Sys
-g++ -std=c++23 -I include src/*.cpp -o payroll
+clang++ -std=c++23 -I include src/*.cpp -o payroll
 ./payroll
 ```
 
@@ -363,28 +374,28 @@ g++ -std=c++23 -I include src/*.cpp -o payroll
 ```bash
 # variadicTemplates_tasks
 cd variadicTemplates_tasks
-g++ -std=c++23 *.cpp -o variadic
+clang++ -std=c++23 *.cpp -o variadic
 ./variadic
 ```
 
 **DOnStore Project:**
 ```bash
 cd DOnStore
-g++ -std=c++23 *.cpp -o store
+clang++ -std=c++23 *.cpp -o store
 ./store
 ```
 
 **LMS Projects:**
 ```bash
 cd LMS
-g++ -std=c++23 *.cpp -o library
+clang++ -std=c++23 *.cpp -o library
 ./library
 ```
 
 **smartPointers Project:**
 ```bash
 cd smartPointers_imp
-g++ -std=c++23 *.cpp -o pointers
+clang++ -std=c++23 *.cpp -o pointers
 ./pointers
 ```
 
@@ -413,12 +424,12 @@ Most projects are self-contained and don't require external libraries. Some opti
 
 For debugging and catching undefined behavior:
 ```bash
-g++ -std=c++11 -Wall -Wextra -g -fsanitize=undefined *.cpp -o program
+clang++ -std=c++23 -Wall -Wextra -g -fsanitize=undefined *.cpp -o program
 ```
 
 For optimization:
 ```bash
-g++ -std=c++17 -O2 *.cpp -o program
+clang++ -std=c++23 -O2 *.cpp -o program
 ```
 
 ## 📖 How to Use This Repository
@@ -437,6 +448,7 @@ This repository covers:
 - ✅ Memory management and pointer operations
 - ✅ Object-oriented design principles
 - ✅ Template programming and metaprogramming
+- ✅ C++20 concepts and the Ranges library
 - ✅ File I/O and system programming
 - ✅ Best practices and code organization
 
@@ -477,6 +489,6 @@ For questions about specific implementations:
 
 **Last Updated**: 2026
 
-**Language**: C++ (C++11 and later)
+**Language**: C++ (C++20 and later)
 
 **Level**: Intermediate to Advanced
