@@ -1,7 +1,7 @@
 #include "equal_range.hpp"
 #include "upper_bound.hpp"
 #include "lower_bound.hpp"
-#include "marge_sort.hpp"
+#include "merge_sort.hpp"
 #include "quick_sort.hpp"
 #include "binary_search.hpp"
 #include "bubble_sort.hpp"
@@ -10,10 +10,12 @@
 #include "quick_select.hpp"
 #include "counting_sort.hpp"
 #include "raddix_sort.hpp"
+#include "BST.hpp"
 #include <cassert>
 #include <random>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 void test_my_equal_range() {
     {
@@ -1148,6 +1150,107 @@ void test_radix_sort256_random()
     }
 }
 
+void testBST() {
+    BST tree;
+
+    // INSERT
+    tree.insert(5);
+    tree.insert(3);
+    tree.insert(7);
+    tree.insert(2);
+    tree.insert(4);
+    tree.insert(6);
+    tree.insert(8);
+
+    assert(tree.search(5) != nullptr);
+    assert(tree.search(3) != nullptr);
+    assert(tree.search(7) != nullptr);
+    assert(tree.search(2) != nullptr);
+    assert(tree.search(4) != nullptr);
+    assert(tree.search(6) != nullptr);
+    assert(tree.search(8) != nullptr);
+
+    // SEARCH
+    assert(tree.search(100) == nullptr);
+    assert(tree.search(-10) == nullptr);
+
+    // MINIMUM / MAXIMUM
+    assert(tree.minimum() != nullptr);
+    assert(tree.maximum() != nullptr);
+
+    assert(tree.minimum()->val == 2);
+    assert(tree.maximum()->val == 8);
+
+    // SUCCESSOR
+    assert(tree.successor(2)->val == 3);
+    assert(tree.successor(3)->val == 4);
+    assert(tree.successor(4)->val == 5);
+    assert(tree.successor(5)->val == 6);
+    assert(tree.successor(6)->val == 7);
+    assert(tree.successor(7)->val == 8);
+
+    assert(tree.successor(8) == nullptr);
+
+    // PREDECESSOR
+    assert(tree.predecessor(8)->val == 7);
+    assert(tree.predecessor(7)->val == 6);
+    assert(tree.predecessor(6)->val == 5);
+    assert(tree.predecessor(5)->val == 4);
+    assert(tree.predecessor(4)->val == 3);
+    assert(tree.predecessor(3)->val == 2);
+
+    assert(tree.predecessor(2) == nullptr);
+
+    // HEIGHT
+    //        5
+    //       / \
+    //      3   7
+    //     / \ / \
+    //    2  4 6  8
+    //
+    // height = 2
+
+    assert(tree.height() == 2);
+
+    // REMOVE LEAF
+    tree.remove(2);
+
+    assert(tree.search(2) == nullptr);
+    assert(tree.minimum()->val == 3);
+
+    // REMOVE ONE CHILD
+    tree.insert(1);
+    tree.remove(3);
+
+    assert(tree.search(3) == nullptr);
+    assert(tree.search(1) != nullptr);
+    assert(tree.search(4) != nullptr);
+
+    // REMOVE TWO CHILDREN
+    tree.remove(7);
+
+    assert(tree.search(7) == nullptr);
+    assert(tree.search(6) != nullptr);
+    assert(tree.search(8) != nullptr);
+
+    // REMOVE ROOT
+    tree.remove(5);
+
+    assert(tree.search(5) == nullptr);
+
+    // REMOVE NON-EXISTING VALUE
+    tree.remove(100);
+    tree.remove(-100);
+
+    assert(tree.search(1) != nullptr);
+    assert(tree.search(4) != nullptr);
+    assert(tree.search(6) != nullptr);
+    assert(tree.search(8) != nullptr);
+
+
+    std::cout << "All BST tests passed!" << std::endl;
+}
+
 int main () {
     test_my_equal_range();
     test_my_lower_bound();
@@ -1165,6 +1268,7 @@ int main () {
     test_radix_sort_random();
     test_radix_sort256();
     test_radix_sort256_random();
+    testBST();
 
     return 0;
 }
