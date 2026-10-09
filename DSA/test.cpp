@@ -11,6 +11,8 @@
 #include "counting_sort.hpp"
 #include "raddix_sort.hpp"
 #include "BST.hpp"
+#include "AVL.hpp"
+#include "RB_tree.hpp"
 #include <cassert>
 #include <random>
 #include <vector>
@@ -1251,6 +1253,93 @@ void testBST() {
     std::cout << "All BST tests passed!" << std::endl;
 }
 
+void testAVL() {
+    using namespace std;
+    AVL tree;
+
+    tree.insert(30);
+    tree.insert(20);
+    tree.insert(10);  // Right rotation
+
+    tree.insert(25);
+    tree.insert(28);  // Left-Right rotation
+
+    tree.insert(40);
+    tree.insert(50);  // Left rotation
+
+    tree.insert(45);
+    tree.insert(5);
+    tree.insert(15);
+
+    tree.insert(30);
+    tree.insert(20);
+    tree.insert(10);
+
+    tree.remove(5);    // leaf
+    tree.remove(15);   // leaf
+    tree.remove(20);   // node with children
+    tree.remove(30);   // root
+
+    tree.remove(1000);
+    tree.remove(-1000);
+
+    AVL largeTree;
+
+    for (int i = 1; i <= 1000; ++i)
+        largeTree.insert(i);
+
+    for (int i = 1; i <= 1000; ++i)
+        largeTree.remove(i);
+
+    cout << "\nAll AVL tests passed!" << endl;
+}
+
+void test_RB_tree() {
+    RBTree t;
+
+    int a[] = {10, 20, 30, 15, 5, 1, 7, 25, 40, 50, 45};
+
+    for (int x : a) {
+        t.insert(x);
+        assert(t.validate());
+    }
+
+    assert(t.lower_bound(1)->val == 1);
+    assert(t.lower_bound(6)->val == 7);
+    assert(t.lower_bound(11)->val == 15);
+    assert(t.lower_bound(50)->val == 50);
+    assert(t.lower_bound(51) == nullptr);
+
+    assert(t.upper_bound(1)->val == 5);
+    assert(t.upper_bound(10)->val == 15);
+    assert(t.upper_bound(45)->val == 50);
+    assert(t.upper_bound(50) == nullptr);
+
+    auto [lb, ub] = t.equal_range(15);
+    assert(lb->val == 15);
+    assert(ub->val == 20);
+
+    assert(t.successor(t.lower_bound(10))->val == 15);
+    assert(t.successor(t.lower_bound(40))->val == 45);
+    assert(t.successor(t.lower_bound(50)) == nullptr);
+
+    assert(t.predecessor(t.lower_bound(10))->val == 7);
+    assert(t.predecessor(t.lower_bound(1)) == nullptr);
+    assert(t.predecessor(t.lower_bound(50))->val == 45);
+
+    int remove[] = {1, 50, 20, 30, 10, 5, 7, 15, 25, 40, 45};
+
+    for (int x : remove) {
+        RBNode* node = t.lower_bound(x);
+        assert(node != nullptr && node->val == x);
+
+        t.remove(node);
+        assert(t.validate());
+    }
+
+    assert(t.lower_bound(0) == nullptr);
+}
+
 int main () {
     test_my_equal_range();
     test_my_lower_bound();
@@ -1269,6 +1358,8 @@ int main () {
     test_radix_sort256();
     test_radix_sort256_random();
     testBST();
+    testAVL();
+    test_RB_tree();
 
     return 0;
 }
